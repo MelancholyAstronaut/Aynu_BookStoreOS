@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.BookStore.client.user.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.BookStore.beans.User">
+        <id column="user_id" jdbcType="INTEGER" property="id"/>
+        <result column="user_username" jdbcType="VARCHAR" property="username"/>
+        <result column="user_PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="user_gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="user_email" jdbcType="VARCHAR" property="email"/>
+        <result column="user_telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="user_introduce" jdbcType="VARCHAR" property="introduce"/>
+        <result column="user_activeCode" jdbcType="VARCHAR" property="activecode"/>
+        <result column="user_state" jdbcType="INTEGER" property="state"/>
+        <result column="user_role" jdbcType="VARCHAR" property="role"/>
+        <result column="user_registTime" jdbcType="TIMESTAMP" property="registtime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user.id as user_id, user.username as user_username, user.`PASSWORD` as `user_PASSWORD`,
+    user.gender as user_gender, user.email as user_email, user.telephone as user_telephone, 
+    user.introduce as user_introduce, user.activeCode as user_activeCode, user.`state` as `user_state`, 
+    user.`role` as `user_role`, user.registTime as user_registTime
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user user
+        where user.id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultType="User">
+        select *
+        from user
+    </select>
+    <select id="findEmail" resultType="java.lang.Integer">
+        select count(*)
+        from user
+        where email = #{email}
+    </select>
+    <select id="findUsername" resultType="java.lang.Integer">
+        select count(*)
+        from user
+        where username = #{userName}
+    </select>
+    <select id="findUsernameLogin" resultType="user">
+        select *
+        from user
+        where username = #{username}
+          and password = #{password}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.BookStore.beans.User"
+            useGeneratedKeys="true">
+        insert into user (username, `PASSWORD`, gender,
+                          email, telephone, introduce,
+                          activeCode)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR},
+                #{activecode,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.BookStore.beans.User"
+            useGeneratedKeys="true">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                `PASSWORD`,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="introduce != null">
+                introduce,
+            </if>
+            <if test="activecode != null">
+                activeCode,
+            </if>
+            <if test="state != null">
+                `state`,
+            </if>
+            <if test="role != null">
+                `role`,
+            </if>
+            <if test="registtime != null">
+                registTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="introduce != null">
+                #{introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="activecode != null">
+                #{activecode,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="registtime != null">
+                #{registtime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.BookStore.beans.User">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `PASSWORD` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="introduce != null">
+                introduce = #{introduce,jdbcType=VARCHAR},
+            </if>
+            <if test="activecode != null">
+                activeCode = #{activecode,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="role != null">
+                `role` = #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="registtime != null">
+                registTime = #{registtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.BookStore.beans.User">
+        update user
+        set username   = #{username,jdbcType=VARCHAR},
+            `PASSWORD` = #{password,jdbcType=VARCHAR},
+            gender     = #{gender,jdbcType=VARCHAR},
+            email      = #{email,jdbcType=VARCHAR},
+            telephone  = #{telephone,jdbcType=VARCHAR},
+            introduce  = #{introduce,jdbcType=VARCHAR},
+            activeCode = #{activecode,jdbcType=VARCHAR},
+            `state`    = #{state,jdbcType=INTEGER},
+            `role`     = #{role,jdbcType=VARCHAR},
+            registTime = #{registtime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByActiveCode">
+        update user
+        set state = 1
+        where activeCode = #{code}
+    </update>
+
+</mapper>
