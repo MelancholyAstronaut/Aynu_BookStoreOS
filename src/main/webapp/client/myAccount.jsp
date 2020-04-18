@@ -19,6 +19,7 @@
 						</tr>
 						<tr>
 							<td class="listtd">
+
 								<img src="${pageContext.request.contextPath }/client/images/miniicon.gif" width="9" height="6" />&nbsp;&nbsp;&nbsp;&nbsp; 
 								<a href="${pageContext.request.contextPath }/client/modifyuserinfo.jsp">用户信息修改</a>
 							</td>

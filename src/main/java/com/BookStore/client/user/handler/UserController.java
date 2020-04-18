@@ -21,14 +21,8 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-
     private UserService userService;
 
-    @RequestMapping("/index")
-    public String index() {
-
-        return "client/cart.jsp";
-    }
 
     @PostMapping("/register")
     public String registerUsr(User user, HttpSession session, String code, Model model) {
@@ -83,6 +77,7 @@ public class UserController {
         if (u == null) {
             u = autologin(request); //自动登录能否成功
             if (u != null) {
+                session.setAttribute("login_user",u);
                 return "/client/myAccount.jsp";
             }
             return "/client/login.jsp";
@@ -152,7 +147,16 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) {
+        model.addAttribute("login_error", "退出成功");
+        Cookie c1 = new Cookie("book_store_password", null);
+        c1.setMaxAge(0);
+        Cookie c2 = new Cookie("book_store_username", null);
+        c2.setMaxAge(0);
+        c1.setPath(request.getContextPath() +"/");
+        c2.setPath(request.getContextPath() +"/");
+        response.addCookie(c1);
+        response.addCookie(c2);
         session.removeAttribute("login_user");
         return "/client/login.jsp";
     }
