@@ -50,7 +50,6 @@ public class UserController {
         } else {
             return "redirect:/client/activeFail.jsp";
         }
-
     }
 
     @PostMapping("/findEmail")
